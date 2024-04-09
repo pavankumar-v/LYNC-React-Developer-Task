@@ -14,7 +14,7 @@ import Bookmarks from './components/pages/Bookmarks';
 
 const App: React.FC = () => {
   return (
-    <div className="text-primary bg-background h-screen w-screen">
+    <div className="text-primary min-h-screen max-w-screen">
       <BrowserRouter>
         <Navbar />
         <Routes>
