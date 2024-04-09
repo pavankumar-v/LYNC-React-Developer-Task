@@ -35,7 +35,7 @@
 
 @layer components {
   .container {
-    @apply max-w-[70%] mx-auto;
+    @apply lg:max-w-[70%] mx-auto;
   }
 }
 
