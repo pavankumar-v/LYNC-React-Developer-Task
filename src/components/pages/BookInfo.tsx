@@ -1,4 +1,4 @@
-import { Book } from '@/interface';
+import { Book, BookSaleAbility } from '@/interface';
 import { getBook } from '@/services/bookService';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Button from '../ui/Button';
 const BookInfo: React.FC = () => {
   const [book, setBook] = useState<Book | null>(null);
   const { id } = useParams();
+  const isBookForSale = book?.saleInfo.saleability == BookSaleAbility.FOR_SALE;
 
   useEffect(() => {
     getBook(id || '').then((book) => {
@@ -48,14 +49,20 @@ const BookInfo: React.FC = () => {
               <p className="text-xl">
                 Total Pages: {book.volumeInfo.pageCount}
               </p>
-              <p className="font-bolder text-3xl text-accent">
-                {book.saleInfo.listPrice.amount}{' '}
-                {book.saleInfo.listPrice.currencyCode}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <Button size="lg">Buy Now</Button>
-                <Button>Bookmark</Button>
-              </div>
+              {!isBookForSale ? (
+                <p className="text-destructive text-lg">Not For Sale</p>
+              ) : (
+                <>
+                  <p className="font-bolder text-3xl text-accent">
+                    {book.saleInfo.listPrice?.amount}{' '}
+                    {book.saleInfo.listPrice?.currencyCode}
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <Button size="lg">Buy Now</Button>
+                    <Button>Bookmark</Button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

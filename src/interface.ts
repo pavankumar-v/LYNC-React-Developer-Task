@@ -22,6 +22,11 @@ export interface Orders {
   createdAt: Date;
 }
 
+export enum BookSaleAbility {
+  FOR_SALE = 'FOR_SALE',
+  NOT_FOR_SALE = 'NOT_FOR_SALE',
+}
+
 export interface Book {
   id: string;
   volumeInfo: {
@@ -38,8 +43,8 @@ export interface Book {
     previewLink: string;
   };
   saleInfo: {
-    saleability: 'FOR_SALE' | 'NOT_FOR_SALE';
-    listPrice: {
+    saleability: BookSaleAbility;
+    listPrice?: {
       amount: number;
       currencyCode: 'INR' | 'USD';
     };
