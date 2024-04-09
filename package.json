@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,18 +11,22 @@
     "@types/node": "^16.18.95",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
+    "tailwind-merge": "^2.2.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prepare": "husky"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "prepare": "husky",
+    "lint": "eslint --fix . && prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -42,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@typescript-eslint/eslint-plugin": "^7.5.0",
     "@typescript-eslint/parser": "^7.5.0",
     "cz-conventional-changelog": "^3.3.0",
@@ -51,7 +57,8 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^9.0.11",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.3"
   },
   "husky": {
     "hooks": {
