@@ -3,23 +3,38 @@ import { User } from '@/interface';
 import { useNavigate } from 'react-router-dom';
 
 type UserAction = {
-  type: 'authenticate';
-  payload?: object;
+  type: 'login';
+  payload?: User;
 };
 
 function userReducer(state: User | null, action: UserAction): User | null {
   switch (action.type) {
-    case 'authenticate':
-      return { id: '23243', email: 'example@example.com' };
+    case 'login':
+      if (action.payload) {
+        const user = { ...action.payload, id: 'dsdf' };
+        localStorage.setItem('user', JSON.stringify(user));
+        return user;
+      }
+
+      return null;
 
     default:
       return null;
   }
 }
 
-export default function useAuth() {
-  const [user, setUser] = useReducer(userReducer, null);
+export type UseAuthHook = {
+  user: User | null;
+  userDispatch: React.Dispatch<UserAction>;
+  isAuthenticated: boolean;
+  loginWithRedirect: () => void;
+};
+
+export default function useAuth(): UseAuthHook {
+  const [user, userDispatch] = useReducer(userReducer, null);
   const navigate = useNavigate();
+
+  const isAuthenticated = user ? true : false;
 
   function loginWithRedirect() {
     if (user) {
@@ -29,5 +44,10 @@ export default function useAuth() {
     navigate('/auth/login');
   }
 
-  return { user, setUser, isAuthenticated: user || false, loginWithRedirect };
+  return {
+    user,
+    userDispatch,
+    isAuthenticated,
+    loginWithRedirect,
+  };
 }
