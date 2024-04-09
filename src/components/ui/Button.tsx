@@ -8,11 +8,13 @@ interface Props
   > {
   children: JSX.Element | JSX.Element[] | string;
   variant?: BtnVariants;
+  size?: ButtonSize;
 }
 
-export type BtnVariants = 'primary' | 'secondary' | 'default';
+type BtnVariants = 'primary' | 'secondary' | 'default';
+type ButtonSize = 'lg' | 'md' | 'sm';
 
-const defaultStyle = 'text-sm px-4 py-2 transition rounded-sm';
+const defaultStyle: string = 'text-sm px-4 py-2 transition rounded-sm';
 
 const btnVariant: { [key in BtnVariants]: string } = {
   primary:
@@ -22,16 +24,28 @@ const btnVariant: { [key in BtnVariants]: string } = {
     'bg-transparent text-foreground hover:text-foreground/80 active:text-foreground/60 active:bg-',
 };
 
+const btnSize: { [key in ButtonSize]: string } = {
+  lg: 'px-5 py-3',
+  md: 'px-4 py-2',
+  sm: 'text-xs px-3',
+};
+
 const Button: React.FC<Props> = ({
   children,
   variant = 'primary',
+  size = 'md',
   className,
   ...props
 }) => {
   return (
     <button
       {...props}
-      className={twMerge(defaultStyle, btnVariant[variant], className)}
+      className={twMerge(
+        defaultStyle,
+        btnVariant[variant],
+        className,
+        btnSize[size]
+      )}
     >
       {children}
     </button>
