@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-
 import {
   BrowserRouter,
   Routes,
@@ -11,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Books from './components/pages/Books';
 import Bookmarks from './components/pages/Bookmarks';
+import BookInfo from './components/pages/BookInfo';
 
 const App: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/auth" element={<>Login</>} />
           <Route element={<Books />} path="/books" />
-          <Route element={<Books />} path="/books/:id" />
+          <Route element={<BookInfo />} path="/books/:id" />
           <Route element={<Bookmarks />} path="/bookmarks" />
           <Route element={<Books />} path="/cart" />
           <Route element={<Books />} path="/orders" />
