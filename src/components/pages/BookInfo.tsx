@@ -3,7 +3,6 @@ import { getBook } from '@/services/bookService';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../ui/Button';
-// import DOMPurify from 'dompurify';
 
 const BookInfo: React.FC = () => {
   const [book, setBook] = useState<Book | null>(null);
@@ -12,7 +11,6 @@ const BookInfo: React.FC = () => {
 
   useEffect(() => {
     getBook(id || '').then((book) => {
-      console.log(book);
       setBook(book);
     });
   }, []);
