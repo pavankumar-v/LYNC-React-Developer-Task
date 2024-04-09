@@ -10,6 +10,7 @@
     "@types/node": "^16.18.95",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
+    "axios": "^1.6.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
@@ -23,7 +24,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint": "eslint --fix . && prettier --write ."
   },
   "eslintConfig": {
     "extends": [
