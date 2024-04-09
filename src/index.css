@@ -18,7 +18,7 @@
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 142.1 76.2% 36.3%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -31,14 +31,19 @@
 
 * {
   font-family: 'Lexend', 'roboto';
+  color: hsl(var(--foreground));
+}
+
+body {
+  background-color: hsl(240, 10%, 4%);
 }
 
 @layer components {
   .container {
     @apply lg:max-w-[70%] mx-auto;
   }
-}
 
-body {
-  background-color: hsl(240, 10%, 4%);
+  .link {
+    @apply text-primary underline;
+  }
 }
