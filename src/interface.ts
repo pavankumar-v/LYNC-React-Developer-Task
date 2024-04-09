@@ -1,3 +1,27 @@
+export interface User {
+  id: string;
+  email: string;
+}
+
+export interface CartItem {
+  id: string;
+  bookId: string;
+  userId: string;
+}
+
+export interface Bookmarks {
+  id: string;
+  userId: string;
+  bookId: string;
+}
+
+export interface Orders {
+  id: string;
+  bookId: string;
+  userId: string;
+  createdAt: Date;
+}
+
 export interface Book {
   id: string;
   volumeInfo: {
