@@ -12,7 +12,7 @@ interface Props
 
 export type BtnVariants = 'primary' | 'secondary' | 'default';
 
-const defaultStyle = 'text-sm px-3 py-2 transition rounded-lg';
+const defaultStyle = 'text-sm px-4 py-2 transition rounded-sm';
 
 const btnVariant: { [key in BtnVariants]: string } = {
   primary:
