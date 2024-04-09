@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@ui/Button';
 import { NavLink } from 'react-router-dom';
-import useAuth from '@/hooks/useAuth';
+import { AuthContext } from '@/contexts/AuthContext';
 
 const NavItems: React.FC = () => {
-  const { loginWithRedirect, isAuthenticated } = useAuth();
+  const { loginWithRedirect, isAuthenticated } = useContext(AuthContext);
+
   return (
     <ul className="flex justify-center items-center gap-2">
       <li className="text">

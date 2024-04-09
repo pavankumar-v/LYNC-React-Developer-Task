@@ -1,17 +1,31 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useContext, useEffect } from 'react';
 import Button from '../ui/Button';
 import useToggle from '@/hooks/useToggle';
 import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeCloseIcon from '@/assets/icons/EyeCloseIcon';
+import { User } from '@/interface';
+import { AuthContext } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [showPassword, toggleShowPassword] = useToggle(false);
+  const { userDispatch, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(e.currentTarget.email.value);
-    console.log(e.currentTarget.password.value);
+    const user: User = {
+      id: Math.floor(Math.random() * 40).toString(),
+      email: e.currentTarget.email.value,
+    };
+    userDispatch({ type: 'login', payload: user });
   }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/books');
+    }
+  }, [isAuthenticated]);
   return (
     <div className="container w-full h-full flex justify-center items-center">
       <div className="bg-card p-6 rounded-xl border border-primary/50 w-1/2">
