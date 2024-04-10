@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Button from '@ui/Button';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '@/contexts/AuthContext';
+import LogOutButton from '../auth/LogOutButton';
 
 const NavItems: React.FC = () => {
   const { loginWithRedirect, isAuthenticated } = useContext(AuthContext);
@@ -32,7 +33,11 @@ const NavItems: React.FC = () => {
           </NavLink>
         </Button>
       </li>
-      {!isAuthenticated && (
+      {isAuthenticated ? (
+        <>
+          <LogOutButton />
+        </>
+      ) : (
         <>
           <Button onClick={() => loginWithRedirect()}>Login</Button>
         </>
