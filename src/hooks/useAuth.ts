@@ -14,8 +14,8 @@ function userReducer(state: User | null, action: UserAction): User | null {
       if (action.payload) {
         return action.payload;
       }
-
       return null;
+
     case 'removeUser':
       return null;
 
@@ -54,9 +54,12 @@ export default function useAuth(): UseAuthHook {
   }
 
   function loadUser() {
-    const user: User = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user) {
-      userDispatch({ type: 'setUser', payload: user });
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const user: User = JSON.parse(userJson);
+      if (user) {
+        userDispatch({ type: 'setUser', payload: user });
+      }
     }
 
     toogleLoading();
