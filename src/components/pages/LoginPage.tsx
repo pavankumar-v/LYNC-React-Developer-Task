@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [showPassword, toggleShowPassword] = useToggle(false);
-  const { userDispatch, isAuthenticated } = useContext(AuthContext);
+  const { loginUser, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function handleLogin(e: FormEvent<HTMLFormElement>) {
@@ -18,7 +18,8 @@ const LoginPage: React.FC = () => {
       id: Math.floor(Math.random() * 40).toString(),
       email: e.currentTarget.email.value,
     };
-    userDispatch({ type: 'login', payload: user });
+
+    loginUser(user);
   }
 
   useEffect(() => {
