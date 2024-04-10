@@ -12,14 +12,15 @@ import Books from './components/pages/Books';
 import Bookmarks from './components/pages/Bookmarks';
 import BookInfo from './components/pages/BookInfo';
 import LoginPage from './components/pages/LoginPage';
-import AuthContextProvider, { AuthContext } from './contexts/AuthContext';
+import AppContextProvider from './contexts/AppContext';
+import { AuthContext } from './contexts/AuthContext';
 import Spinner from './components/ui/Spinner';
 
 const App: React.FC = () => {
   return (
     <div className="text-primary min-h-screen max-w-screen">
       <BrowserRouter>
-        <AuthContextProvider>
+        <AppContextProvider>
           <Navbar />
           <Routes>
             <Route element={<LoginPage />} path="/auth/login" />
@@ -31,7 +32,7 @@ const App: React.FC = () => {
               <Route element={<Bookmarks />} path="/bookmarks" />
             </Route>
           </Routes>
-        </AuthContextProvider>
+        </AppContextProvider>
       </BrowserRouter>
     </div>
   );
