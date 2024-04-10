@@ -12,6 +12,8 @@ import Books from './components/pages/Books';
 import Bookmarks from './components/pages/Bookmarks';
 import BookInfo from './components/pages/BookInfo';
 import LoginPage from './components/pages/LoginPage';
+import Cart from './components/pages/Cart';
+import Orders from './components/pages/Orders';
 import AppContextProvider from './contexts/AppContext';
 import { AuthContext } from './contexts/AuthContext';
 import Spinner from './components/ui/Spinner';
@@ -26,10 +28,10 @@ const App: React.FC = () => {
             <Route element={<LoginPage />} path="/auth/login" />
             <Route element={<Books />} path="/books" />
             <Route element={<BookInfo />} path="/books/:id" />
-            <Route element={<Books />} path="/cart" />
-            <Route element={<Books />} path="/orders" />
             <Route element={<AuthProtected />}>
               <Route element={<Bookmarks />} path="/bookmarks" />
+              <Route element={<Cart />} path="/cart" />
+              <Route element={<Orders />} path="/orders" />
             </Route>
           </Routes>
         </AppContextProvider>
