@@ -1,21 +1,22 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { User } from '@/interface';
 import { useNavigate } from 'react-router-dom';
+import useToggle from './useToggle';
 
 type UserAction = {
-  type: 'login';
+  type: 'setUser' | 'removeUser';
   payload?: User;
 };
 
 function userReducer(state: User | null, action: UserAction): User | null {
   switch (action.type) {
-    case 'login':
+    case 'setUser':
       if (action.payload) {
-        const user = { ...action.payload, id: 'dsdf' };
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
+        return action.payload;
       }
 
+      return null;
+    case 'removeUser':
       return null;
 
     default:
@@ -28,11 +29,19 @@ export type UseAuthHook = {
   userDispatch: React.Dispatch<UserAction>;
   isAuthenticated: boolean;
   loginWithRedirect: () => void;
+  logOutUser: () => void;
+  loginUser: (user: User) => void;
+  isLoading: boolean;
 };
 
 export default function useAuth(): UseAuthHook {
   const [user, userDispatch] = useReducer(userReducer, null);
+  const [isLoading, toogleLoading] = useToggle(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   const isAuthenticated = user ? true : false;
 
@@ -44,10 +53,32 @@ export default function useAuth(): UseAuthHook {
     navigate('/auth/login');
   }
 
+  function loadUser() {
+    const user: User = JSON.parse(localStorage.getItem('user') || '{}');
+    if (user) {
+      userDispatch({ type: 'setUser', payload: user });
+    }
+
+    toogleLoading();
+  }
+
+  function loginUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    userDispatch({ type: 'setUser', payload: user });
+  }
+
+  function logOutUser() {
+    localStorage.removeItem('user');
+    userDispatch({ type: 'removeUser' });
+  }
+
   return {
     user,
     userDispatch,
     isAuthenticated,
     loginWithRedirect,
+    logOutUser,
+    loginUser,
+    isLoading,
   };
 }
