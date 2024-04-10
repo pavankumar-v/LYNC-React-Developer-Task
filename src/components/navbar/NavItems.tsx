@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@ui/Button';
 import { NavLink } from 'react-router-dom';
+import { AuthContext } from '@/contexts/AuthContext';
+import LogOutButton from '../auth/LogOutButton';
 
 const NavItems: React.FC = () => {
+  const { loginWithRedirect, isAuthenticated } = useContext(AuthContext);
+
   return (
     <ul className="flex justify-center items-center gap-2">
       <li className="text">
@@ -29,7 +33,15 @@ const NavItems: React.FC = () => {
           </NavLink>
         </Button>
       </li>
-      <Button>Login</Button>
+      {isAuthenticated ? (
+        <>
+          <LogOutButton />
+        </>
+      ) : (
+        <>
+          <Button onClick={() => loginWithRedirect()}>Login</Button>
+        </>
+      )}
     </ul>
   );
 };

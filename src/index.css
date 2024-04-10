@@ -46,4 +46,16 @@ body {
   .link {
     @apply text-primary underline;
   }
+
+  label {
+    @apply text-base mb-1 font-light;
+  }
+
+  input {
+    @apply w-full p-2.5 px-3 rounded-sm text-sm bg-background border border-secondary/60 font-light transition;
+  }
+
+  input:focus {
+    @apply focus:ring focus:outline focus:outline-primary;
+  }
 }
