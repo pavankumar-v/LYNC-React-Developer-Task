@@ -48,3 +48,5 @@ export type UserAction = {
   type: 'setUser' | 'removeUser';
   payload?: User;
 };
+
+export type OptionType = { value: string; label: string };

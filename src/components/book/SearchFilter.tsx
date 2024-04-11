@@ -1,15 +1,29 @@
 import React, { useContext } from 'react';
 import Button from '../ui/Button';
 import { BookContext } from '@/contexts/BookContext';
-import { BookContextType } from '@/types';
+import { BookContextType, OptionType } from '@/types';
 import { debounce } from '@/utils/utils';
+import Select from 'react-select';
+import { SingleValue } from 'react-select';
 
 const SearchFilter: React.FC = () => {
-  const { searchBook } = useContext(BookContext) as BookContextType;
+  const { searchBook, isLoading } = useContext(BookContext) as BookContextType;
 
   const handleSearch = debounce((searchTerm: string) => {
     searchBook(searchTerm);
   }, 400);
+
+  const categoriesOptions: OptionType[] = [
+    { value: 'computers', label: 'computers' },
+    { value: 'programming', label: 'programming' },
+    { value: 'rust', label: 'rust' },
+  ];
+
+  console.log(isLoading);
+
+  const handleOnCategoriesChange = (newValue: SingleValue<OptionType>) => {
+    searchBook(newValue?.value || '');
+  };
 
   return (
     <div className="flex justify-center items-center gap-2">
@@ -19,6 +33,34 @@ const SearchFilter: React.FC = () => {
         className="border-foreground/30"
         onChange={(e) => {
           handleSearch(e.target.value);
+        }}
+      />
+      <Select
+        options={categoriesOptions}
+        onChange={handleOnCategoriesChange}
+        isSearchable={false}
+        isClearable
+        className="w-3/4"
+        styles={{
+          control: (base) => ({
+            ...base,
+            background: '#09090B',
+            borderRadius: '12px',
+          }),
+          menu: (base) => ({
+            ...base,
+            borderRadius: '12px',
+          }),
+          menuList: (base) => ({
+            ...base,
+            background: '#020817',
+            borderRadius: '12px',
+          }),
+          option: (base, state) => ({
+            ...base,
+            background: state.isFocused ? '#3B82F6' : '#020817',
+            borderRadius: '12px',
+          }),
         }}
       />
       <Button size="lg">search</Button>
