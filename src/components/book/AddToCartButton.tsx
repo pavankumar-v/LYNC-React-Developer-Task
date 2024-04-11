@@ -3,19 +3,19 @@ import Button from '@ui/Button';
 import { BookContext, BookContextType } from '@/contexts/BookContext';
 import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
 import { Book } from '@/interface';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   book: Book;
 };
 
-const BookmarkButton: React.FC<Props> = ({ book }) => {
-  const { addToBookMarks, bookmarks } = useContext(
-    BookContext
-  ) as BookContextType;
+const AddToCartButton: React.FC<Props> = ({ book }) => {
+  const { addToCart, cartItems } = useContext(BookContext) as BookContextType;
   const { user } = useContext(AuthContext) as AuthContextType;
+  const navigate = useNavigate();
 
-  const isBookMarked = bookmarks.find((bookmarks) => {
-    return bookmarks.bookId == book.id && bookmarks.userId == user?.id;
+  const isBookInCart = cartItems.find((cartItem) => {
+    return cartItem.bookId == book.id && cartItem.userId == user?.id;
   })
     ? true
     : false;
@@ -24,19 +24,20 @@ const BookmarkButton: React.FC<Props> = ({ book }) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
     e.stopPropagation();
-    if (user) {
-      addToBookMarks(book, user);
-    }
-  }
 
-  if (isBookMarked) {
-    return <p className="text-accent">Bookmarked</p>;
+    if (isBookInCart) {
+      return navigate('/cart');
+    }
+
+    if (user) {
+      addToCart(book, user);
+    }
   }
 
   if (user) {
     return (
-      <Button onClick={handleAddBookmark} disabled={isBookMarked}>
-        Bookmark
+      <Button onClick={handleAddBookmark}>
+        {isBookInCart ? 'Go to Cart' : 'Buy Now'}
       </Button>
     );
   }
@@ -44,4 +45,4 @@ const BookmarkButton: React.FC<Props> = ({ book }) => {
   return null;
 };
 
-export default BookmarkButton;
+export default AddToCartButton;

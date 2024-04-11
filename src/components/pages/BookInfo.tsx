@@ -3,6 +3,7 @@ import { getBook } from '@/services/bookService';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '@ui/Button';
+import Spinner from '@ui/Spinner';
 import BookmarkButton from '../book/BookmarkButton';
 
 const BookInfo: React.FC = () => {
@@ -78,7 +79,7 @@ const BookInfo: React.FC = () => {
     );
   }
 
-  return <h2>Book Not Found</h2>;
+  return <Spinner>Loading</Spinner>;
 };
 
 export default BookInfo;
