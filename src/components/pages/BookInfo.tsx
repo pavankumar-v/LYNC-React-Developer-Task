@@ -2,7 +2,9 @@ import { Book, BookSaleAbility } from '@/interface';
 import { getBook } from '@/services/bookService';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../ui/Button';
+import Spinner from '@ui/Spinner';
+import BookmarkButton from '../book/BookmarkButton';
+import AddToCartButton from '../book/AddToCartButton';
 
 const BookInfo: React.FC = () => {
   const [book, setBook] = useState<Book | null>(null);
@@ -48,7 +50,10 @@ const BookInfo: React.FC = () => {
                 Total Pages: {book.volumeInfo.pageCount}
               </p>
               {!isBookForSale ? (
-                <p className="text-destructive text-lg">Not For Sale</p>
+                <>
+                  <p className="text-destructive text-lg">Not For Sale</p>
+                  <BookmarkButton book={book} />
+                </>
               ) : (
                 <>
                   <p className="font-bolder text-3xl text-accent">
@@ -56,8 +61,8 @@ const BookInfo: React.FC = () => {
                     {book.saleInfo.listPrice?.currencyCode}
                   </p>
                   <div className="flex gap-2 mt-3">
-                    <Button size="lg">Buy Now</Button>
-                    <Button>Bookmark</Button>
+                    <AddToCartButton book={book} />
+                    <BookmarkButton book={book} />
                   </div>
                 </>
               )}
@@ -77,7 +82,7 @@ const BookInfo: React.FC = () => {
     );
   }
 
-  return <h2>Book Not Found</h2>;
+  return <Spinner>Loading</Spinner>;
 };
 
 export default BookInfo;

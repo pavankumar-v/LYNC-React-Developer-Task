@@ -1,7 +1,8 @@
 import React from 'react';
 import { Book } from '@/interface';
-import Button from '../ui/Button';
+import BookmarkButton from '@components/book/BookmarkButton';
 import { useNavigate } from 'react-router-dom';
+import AddToCartButton from './AddToCartButton';
 
 type Props = {
   book: Book;
@@ -41,9 +42,9 @@ const BookInfo: React.FC<Props> = ({ book }) => {
               {author}
             </p>
           ))}
-          <div className="mt-3 flex w-full gap-2">
-            <Button>Buy Now</Button>
-            <Button>Bookmark</Button>
+          <div className="mt-3 flex justify-between items-center w-full">
+            <AddToCartButton book={book} />
+            <BookmarkButton book={book} />
           </div>
         </div>
       </div>

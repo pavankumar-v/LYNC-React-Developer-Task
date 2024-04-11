@@ -12,37 +12,41 @@ import Books from './components/pages/Books';
 import Bookmarks from './components/pages/Bookmarks';
 import BookInfo from './components/pages/BookInfo';
 import LoginPage from './components/pages/LoginPage';
-import AuthContextProvider, { AuthContext } from './contexts/AuthContext';
+import Cart from './components/pages/Cart';
+import Orders from './components/pages/Orders';
+import AppContextProvider from './contexts/AppContext';
+import { AuthContext, AuthContextType } from './contexts/AuthContext';
 import Spinner from './components/ui/Spinner';
 
 const App: React.FC = () => {
   return (
     <div className="text-primary min-h-screen max-w-screen">
       <BrowserRouter>
-        <AuthContextProvider>
+        <AppContextProvider>
           <Navbar />
           <Routes>
             <Route element={<LoginPage />} path="/auth/login" />
             <Route element={<Books />} path="/books" />
             <Route element={<BookInfo />} path="/books/:id" />
-            <Route element={<Books />} path="/cart" />
-            <Route element={<Books />} path="/orders" />
             <Route element={<AuthProtected />}>
               <Route element={<Bookmarks />} path="/bookmarks" />
+              <Route element={<Cart />} path="/cart" />
+              <Route element={<Orders />} path="/orders" />
             </Route>
           </Routes>
-        </AuthContextProvider>
+        </AppContextProvider>
       </BrowserRouter>
     </div>
   );
 };
 
 const AuthProtected: React.FC = () => {
-  const { isAuthenticated, isLoading } = useContext(AuthContext);
-  console.log(isAuthenticated);
+  const { isAuthenticated, isLoading } = useContext(
+    AuthContext
+  ) as AuthContextType;
 
   if (isLoading) {
-    <Spinner>Loading...</Spinner>;
+    return <Spinner>Loading...</Spinner>;
   }
 
   if (isAuthenticated) {
