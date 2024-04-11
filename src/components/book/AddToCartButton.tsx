@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Button from '@ui/Button';
 import { BookContext, BookContextType } from '@/contexts/BookContext';
 import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
-import { Book } from '@/interface';
+import { Book, BookSaleAbility } from '@/interface';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -20,6 +20,8 @@ const AddToCartButton: React.FC<Props> = ({ book }) => {
     ? true
     : false;
 
+  const isBookForSale = book.saleInfo.saleability == BookSaleAbility.FOR_SALE;
+
   function handleAddBookmark(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) {
@@ -32,6 +34,10 @@ const AddToCartButton: React.FC<Props> = ({ book }) => {
     if (user) {
       addToCart(book, user);
     }
+  }
+
+  if (!isBookForSale) {
+    return <p className="text-destructive">Not For Sale</p>;
   }
 
   if (user) {
