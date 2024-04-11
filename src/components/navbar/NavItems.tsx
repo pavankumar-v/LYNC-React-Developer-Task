@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
 import LogOutButton from '../auth/LogOutButton';
 import NavItem from './NavItem';
 
 const NavItems: React.FC = () => {
-  const { loginWithRedirect, isAuthenticated } = useContext(AuthContext);
+  const { loginWithRedirect, isAuthenticated } = useContext(
+    AuthContext
+  ) as AuthContextType;
 
   return (
     <ul className="flex justify-center items-center gap-2">

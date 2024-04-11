@@ -4,12 +4,14 @@ import useToggle from '@/hooks/useToggle';
 import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeCloseIcon from '@/assets/icons/EyeCloseIcon';
 import { User } from '@/interface';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [showPassword, toggleShowPassword] = useToggle(false);
-  const { loginUser, isAuthenticated } = useContext(AuthContext);
+  const { loginUser, isAuthenticated } = useContext(
+    AuthContext
+  ) as AuthContextType;
   const navigate = useNavigate();
 
   function handleLogin(e: FormEvent<HTMLFormElement>) {

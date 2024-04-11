@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
 
 const LogOutButton: React.FC = () => {
-  const { logOutUser } = useContext(AuthContext);
+  const { logOutUser } = useContext(AuthContext) as AuthContextType;
   return (
     <Button onClick={() => logOutUser()} variant="destructive">
       Logout
