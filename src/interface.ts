@@ -7,6 +7,7 @@ export interface CartItem {
   id: string;
   bookId: string;
   userId: string;
+  book?: Book;
 }
 
 export interface Bookmark {
