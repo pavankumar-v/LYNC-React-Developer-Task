@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
-import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
+import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContextType } from '@/types';
 import LogOutButton from '../auth/LogOutButton';
 import NavItem from './NavItem';
 

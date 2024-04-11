@@ -1,108 +1,30 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
-import { getBooks } from '@/services/bookService';
+import { getBooks, searchBookApi } from '@/services/bookService';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { AuthContext, AuthContextType } from './AuthContext';
+import { AuthContext } from './AuthContext';
+import { AuthContextType, BookContextType, Query } from '@/types';
 
-export type BookContextType = {
-  books: Book[];
-  cartItems: CartItem[];
-  orders: Order[];
-  bookmarks: Bookmark[];
-  addToCart: (book: Book, user: User) => void;
-  removeFromCart: (cartId: string) => void;
-  createOrder: () => void;
-  addToBookMarks: (book: Book, user: User) => void;
-  removeFromBookmarks: (bookmarkId: string) => void;
-};
-
-type CartActionType = {
-  type: 'add' | 'remove';
-  payload?: CartItem[];
-};
-
-type OrderActionType = {
-  type: 'add' | 'remove';
-  payload?: Order[];
-};
-
-type BookmarkActionType = {
-  type: 'add' | 'remove';
-  payload?: Bookmark[];
-};
+import {
+  bookReducer,
+  bookmarkReducer,
+  cartReducer,
+  orderReducer,
+} from '@/reducers/bookReducers';
+import useToggle from '@/hooks/useToggle';
 
 export const BookContext = createContext<BookContextType | null>(null);
 
-function cartReducer(state: CartItem[], action: CartActionType): CartItem[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    case 'remove':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    default:
-      return [];
-  }
-}
-
-function orderReducer(state: Order[], action: OrderActionType): Order[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    default:
-      return [];
-  }
-}
-
-function bookmarkReducer(
-  state: Bookmark[],
-  action: BookmarkActionType
-): Bookmark[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return [...action.payload];
-      }
-
-      return [];
-    case 'remove':
-      return [];
-    default:
-      return [];
-  }
-}
-
-export type BookActions = 'fetch';
-
-type BookActionType = {
-  type: BookActions;
-  payload?: Book[];
+type Props = {
+  children: JSX.Element | JSX.Element[];
 };
 
-function bookReducer(state: Book[], action: BookActionType): Book[] {
-  switch (action.type) {
-    case 'fetch':
-      return action.payload || [];
-    default:
-      return [];
-  }
-}
-
-const BookContextProvider: React.FC<{
-  children: JSX.Element | JSX.Element[];
-}> = ({ children }) => {
+const BookContextProvider: React.FC<Props> = ({ children }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
+  const [isLoading, toogleLoading] = useToggle(false);
 
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
@@ -131,7 +53,6 @@ const BookContextProvider: React.FC<{
       userId: cart.userId,
       createdAt: new Date(),
     }));
-    console.log(newOrders);
 
     newOrders = [...orders, ...newOrders];
     localStorage.setItem('orders', JSON.stringify(newOrders));
@@ -193,17 +114,29 @@ const BookContextProvider: React.FC<{
 
   async function loadBooks(): Promise<void> {
     const books: Book[] = await getBooks();
-    bookDispatch({ type: 'fetch', payload: books });
+    bookDispatch({ type: 'add', payload: books });
   }
 
   function loadOrder() {
     const ordersJsonData = localStorage.getItem('orders');
-    console.log(ordersJsonData);
+
     if (ordersJsonData) {
       let ordersData: Order[] = JSON.parse(ordersJsonData);
       ordersData = ordersData.filter((order) => order.userId == user?.id);
       orderDispatch({ type: 'add', payload: ordersData });
     }
+  }
+
+  async function searchBook(
+    searchTerm: string,
+    q?: {
+      [key in Query]?: string;
+    }
+  ) {
+    toogleLoading();
+    const books: Book[] = await searchBookApi(searchTerm, q);
+    bookDispatch({ type: 'add', payload: books });
+    toogleLoading();
   }
 
   useEffect(() => {
@@ -225,6 +158,8 @@ const BookContextProvider: React.FC<{
         createOrder,
         addToBookMarks,
         removeFromBookmarks,
+        searchBook,
+        isLoading,
       }}
     >
       {children}

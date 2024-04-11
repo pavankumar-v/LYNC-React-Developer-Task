@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
-import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
+import { BookContext } from '@/contexts/BookContext';
+import { AuthContextType, BookContextType } from '@/types';
+import { AuthContext } from '@/contexts/AuthContext';
 import { Book } from '@/interface';
 
 type Props = {

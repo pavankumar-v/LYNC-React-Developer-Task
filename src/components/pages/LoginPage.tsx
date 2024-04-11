@@ -4,7 +4,8 @@ import useToggle from '@/hooks/useToggle';
 import EyeIcon from '@/assets/icons/EyeIcon';
 import EyeCloseIcon from '@/assets/icons/EyeCloseIcon';
 import { User } from '@/interface';
-import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
+import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContextType } from '@/types';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {

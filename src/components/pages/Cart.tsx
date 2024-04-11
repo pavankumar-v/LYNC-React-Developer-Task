@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { CartItem } from '@/interface';
 import CheckOutButton from '../book/CheckOutButton';
 import Button from '../ui/Button';
@@ -26,7 +27,9 @@ const Cart: React.FC = () => {
   if (cartBooks.length == 0) {
     return (
       <div className="container flex justify-center items-center">
-        <p className="text-lg font-bold p-5">No Items In cart</p>
+        <p className="text-lg font-bold p-5 text-center">
+          Oops! Nothing in your cart 🛒? <br /> Add Few Books
+        </p>
       </div>
     );
   }

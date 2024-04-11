@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { BooksGrid } from './Books';
 import { Book } from '@/interface';
 
@@ -8,6 +9,14 @@ const Bookmarks = () => {
   const bookmarkedBooks: Book[] = books.filter((book) =>
     bookmarks.map((bookmark) => bookmark.bookId).includes(book.id)
   );
+
+  if (bookmarkedBooks.length == 0) {
+    return (
+      <div className="container p-10 flex justify-center items-center">
+        <p>You have not Bookmarked Any Books🔖</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">

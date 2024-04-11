@@ -1,45 +1,17 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import useToggle from '@/hooks/useToggle';
 import { User } from '@/interface';
 import { useNavigate } from 'react-router-dom';
+import { AuthContextType } from '@/types';
+import { userReducer } from '@/reducers/authReducers';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-type UserAction = {
-  type: 'setUser' | 'removeUser';
-  payload?: User;
-};
-
-function userReducer(state: User | null, action: UserAction): User | null {
-  switch (action.type) {
-    case 'setUser':
-      if (action.payload) {
-        return action.payload;
-      }
-      return null;
-
-    case 'removeUser':
-      return null;
-
-    default:
-      return null;
-  }
-}
-
-export type AuthContextType = {
-  user: User | null;
-  isAuthenticated: boolean;
-  loginWithRedirect: () => void;
-  logOutUser: () => void;
-  loginUser: (user: User) => void;
-  isLoading: boolean;
-};
-
-const AuthContextProvider: React.FC<{
+type Props = {
   children: JSX.Element | JSX.Element[];
-}> = ({ children }) => {
+};
+
+const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, null);
-  const [isLoading, toogleLoading] = useToggle(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,8 +36,6 @@ const AuthContextProvider: React.FC<{
         userDispatch({ type: 'setUser', payload: user });
       }
     }
-
-    toogleLoading();
   }
 
   function loginUser(user: User) {
@@ -77,6 +47,7 @@ const AuthContextProvider: React.FC<{
     localStorage.removeItem('user');
     userDispatch({ type: 'removeUser' });
   }
+
   return (
     <AuthContext.Provider
       value={{
@@ -84,7 +55,6 @@ const AuthContextProvider: React.FC<{
         isAuthenticated,
         loginUser,
         logOutUser,
-        isLoading,
         loginWithRedirect,
       }}
     >
