@@ -9,7 +9,6 @@ export type BookContextType = {
   removeFromCart: (cartId: string) => void;
   createOrder: () => void;
   addToBookMarks: (book: Book, user: User) => void;
-  removeFromBookmarks: (bookmarkId: string) => void;
   searchBook: (searchTerm: string, q?: QueriesType) => void;
   isLoading: boolean;
 };

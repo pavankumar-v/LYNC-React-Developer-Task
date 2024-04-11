@@ -76,16 +76,6 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     bookmarkDispatch({ type: 'add', payload: bookmarks });
   }
 
-  function removeFromBookmarks(bookmarkId: string) {
-    const bookmark: Bookmark | undefined = bookmarks.find(
-      (bookmark) => bookmark.id == bookmarkId
-    );
-
-    if (bookmark) {
-      // cartDispatch({ type: 'remove', payload: bookmark });
-    }
-  }
-
   function loadBookmarks() {
     if (user) {
       const bookMarkData = localStorage.getItem('bookmarks');
@@ -157,7 +147,6 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         removeFromCart,
         createOrder,
         addToBookMarks,
-        removeFromBookmarks,
         searchBook,
         isLoading,
       }}
