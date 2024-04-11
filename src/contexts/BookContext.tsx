@@ -140,7 +140,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
             return true;
           }
 
-          if (book.volumeInfo.title.includes(searchTerm)) {
+          if (book.volumeInfo.subtitle.includes(searchTerm)) {
             return true;
           }
         }
@@ -150,6 +150,30 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
       bookmarkDispatch({ type: 'add', payload: searchedBookMarks });
     } else {
       loadBookmarks();
+    }
+  }
+
+  function searchOrders(searchTerm: string) {
+    if (searchTerm) {
+      const searchedOrders = orders.filter((order) => {
+        const book: Book | undefined = books.find(
+          (book) => book.id == order.bookId
+        );
+        if (book) {
+          if (book.volumeInfo.title.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+
+          if (book.volumeInfo.subtitle?.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      orderDispatch({ type: 'add', payload: searchedOrders });
+    } else {
+      loadOrder();
     }
   }
 
@@ -173,6 +197,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         addToBookMarks,
         searchBook,
         searchBookmarks,
+        searchOrders,
         isLoading,
       }}
     >

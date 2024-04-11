@@ -11,6 +11,7 @@ export type BookContextType = {
   addToBookMarks: (book: Book, user: User) => void;
   searchBook: (searchTerm: string, q?: QueriesType) => void;
   searchBookmarks: (searchTerm: string) => void;
+  searchOrders: (searchTerm: string) => void;
   isLoading: boolean;
 };
 
