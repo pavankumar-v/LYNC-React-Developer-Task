@@ -1,7 +1,9 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
+import { getBooks } from '@/services/bookService';
 import React, { createContext, useEffect, useReducer } from 'react';
 
 export type BookContextType = {
+  books: Book[];
   cartItems: CartItem[];
   orders: Order[];
   bookmarks: Bookmark[];
@@ -69,12 +71,29 @@ function bookmarkReducer(
   }
 }
 
+export type BookActions = 'fetch';
+
+type BookActionType = {
+  type: BookActions;
+  payload?: Book[];
+};
+
+function bookReducer(state: Book[], action: BookActionType): Book[] {
+  switch (action.type) {
+    case 'fetch':
+      return action.payload || [];
+    default:
+      return [];
+  }
+}
+
 const BookContextProvider: React.FC<{
   children: JSX.Element | JSX.Element[];
 }> = ({ children }) => {
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
+  const [books, bookDispatch] = useReducer(bookReducer, []);
 
   function addToCart(book: Book, user: User) {
     const cart: CartItem = {
@@ -139,13 +158,20 @@ const BookContextProvider: React.FC<{
     }
   }
 
+  async function loadBooks(): Promise<void> {
+    const books: Book[] = await getBooks();
+    bookDispatch({ type: 'fetch', payload: books });
+  }
+
   useEffect(() => {
     loadBookmarks();
+    loadBooks();
   }, []);
 
   return (
     <BookContext.Provider
       value={{
+        books,
         cartItems,
         orders,
         bookmarks,
