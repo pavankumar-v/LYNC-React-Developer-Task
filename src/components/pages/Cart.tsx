@@ -23,6 +23,14 @@ const Cart: React.FC = () => {
     .map((cart) => cart.book?.saleInfo.listPrice?.amount)
     .reduce((total, bookPrice) => (total || 0) + (bookPrice || 0), 0);
 
+  if (cartBooks.length == 0) {
+    return (
+      <div className="container flex justify-center items-center">
+        <p className="text-lg font-bold p-5">No Items In cart</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="container flex flex-col gap-5 w-full mt-2">
