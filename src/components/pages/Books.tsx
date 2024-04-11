@@ -14,7 +14,7 @@ const Books: React.FC = () => {
 
 export const BooksGrid: React.FC<{ books: Book[] }> = ({ books }) => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-5">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 py-5">
       {books.map((book: Book, i: number) => (
         <BookInfo book={book} key={i} />
       ))}
