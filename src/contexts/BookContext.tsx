@@ -1,6 +1,7 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
 import { getBooks } from '@/services/bookService';
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import { AuthContext } from './AuthContext';
 
 export type BookContextType = {
   books: Book[];
@@ -90,6 +91,7 @@ function bookReducer(state: Book[], action: BookActionType): Book[] {
 const BookContextProvider: React.FC<{
   children: JSX.Element | JSX.Element[];
 }> = ({ children }) => {
+  const { user } = useContext(AuthContext);
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
@@ -149,12 +151,15 @@ const BookContextProvider: React.FC<{
   }
 
   function loadBookmarks() {
-    const bookMarkData = localStorage.getItem('bookmarks');
-    console.log(bookMarkData);
+    if (user) {
+      const bookMarkData = localStorage.getItem('bookmarks');
 
-    if (bookMarkData) {
-      const bookmarks: Bookmark[] = JSON.parse(bookMarkData);
-      bookmarkDispatch({ type: 'add', payload: [...bookmarks] });
+      if (bookMarkData) {
+        let bookmarks: Bookmark[] = JSON.parse(bookMarkData);
+        bookmarks = bookmarks.filter((bookmark) => bookmark.userId == user.id);
+
+        bookmarkDispatch({ type: 'add', payload: [...bookmarks] });
+      }
     }
   }
 
