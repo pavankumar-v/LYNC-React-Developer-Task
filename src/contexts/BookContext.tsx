@@ -10,7 +10,7 @@ export type BookContextType = {
   bookmarks: Bookmark[];
   addToCart: (book: Book, user: User) => void;
   removeFromCart: (cartId: string) => void;
-  createOrder: (book: Book, user: User) => void;
+  createOrder: () => void;
   addToBookMarks: (book: Book, user: User) => void;
   removeFromBookmarks: (bookmarkId: string) => void;
 };
@@ -22,7 +22,7 @@ type CartActionType = {
 
 type OrderActionType = {
   type: 'add' | 'remove';
-  payload?: Order;
+  payload?: Order[];
 };
 
 type BookmarkActionType = {
@@ -52,8 +52,9 @@ function cartReducer(state: CartItem[], action: CartActionType): CartItem[] {
 function orderReducer(state: Order[], action: OrderActionType): Order[] {
   switch (action.type) {
     case 'add':
-      return [];
-    case 'remove':
+      if (action.payload) {
+        return action.payload;
+      }
       return [];
     default:
       return [];
@@ -123,14 +124,22 @@ const BookContextProvider: React.FC<{
     cartDispatch({ type: 'remove', payload: [...updatedCart] });
   }
 
-  function createOrder(book: Book, user: User) {
-    const order: Order = {
+  function createOrder() {
+    let newOrders: Order[] = cartItems.map((cart) => ({
       id: Math.random().toString(),
-      bookId: book.id,
-      userId: user.id,
-    };
+      bookId: books.find((book) => book.id == cart.bookId)?.id || '',
+      userId: cart.userId,
+      createdAt: new Date(),
+    }));
+    console.log(newOrders);
 
-    orderDispatch({ type: 'add', payload: order });
+    newOrders = [...orders, ...newOrders];
+    localStorage.setItem('orders', JSON.stringify(newOrders));
+
+    orderDispatch({ type: 'add', payload: newOrders });
+
+    localStorage.setItem('cartItems', '');
+    cartDispatch({ type: 'add', payload: [] });
   }
 
   function addToBookMarks(book: Book, user: User) {
@@ -175,7 +184,7 @@ const BookContextProvider: React.FC<{
 
       if (cartData) {
         let cartItems: CartItem[] = JSON.parse(cartData);
-        cartItems = cartItems.filter((bookmark) => bookmark.userId == user.id);
+        cartItems = cartItems.filter((cartItem) => cartItem.userId == user.id);
 
         cartDispatch({ type: 'add', payload: [...cartItems] });
       }
@@ -187,10 +196,21 @@ const BookContextProvider: React.FC<{
     bookDispatch({ type: 'fetch', payload: books });
   }
 
+  function loadOrder() {
+    const ordersJsonData = localStorage.getItem('orders');
+    console.log(ordersJsonData);
+    if (ordersJsonData) {
+      let ordersData: Order[] = JSON.parse(ordersJsonData);
+      ordersData = ordersData.filter((order) => order.userId == user?.id);
+      orderDispatch({ type: 'add', payload: ordersData });
+    }
+  }
+
   useEffect(() => {
     loadBooks();
     loadBookmarks();
     loadCartItems();
+    loadOrder();
   }, [user]);
 
   return (
