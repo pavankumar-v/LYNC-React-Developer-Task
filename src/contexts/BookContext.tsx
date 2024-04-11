@@ -129,6 +129,30 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     toogleLoading();
   }
 
+  function searchBookmarks(searchTerm: string) {
+    if (searchTerm) {
+      const searchedBookMarks = bookmarks.filter((bookmark) => {
+        const book: Book | undefined = books.find(
+          (book) => book.id == bookmark.bookId
+        );
+        if (book) {
+          if (book.volumeInfo.title.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+
+          if (book.volumeInfo.title.includes(searchTerm)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      bookmarkDispatch({ type: 'add', payload: searchedBookMarks });
+    } else {
+      loadBookmarks();
+    }
+  }
+
   useEffect(() => {
     loadBooks();
     loadBookmarks();
@@ -148,6 +172,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         createOrder,
         addToBookMarks,
         searchBook,
+        searchBookmarks,
         isLoading,
       }}
     >
