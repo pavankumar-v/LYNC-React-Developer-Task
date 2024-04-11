@@ -1,14 +1,14 @@
 import React from 'react';
 import Button from '@ui/Button';
-import { Book } from '@/interface';
+import { CartItem } from '@/interface';
 
 type Props = {
-  cartBooks: Book[];
+  cartItems: CartItem[];
 };
 
-const CheckOutButton: React.FC<Props> = ({ cartBooks }) => {
+const CheckOutButton: React.FC<Props> = ({ cartItems }) => {
   return (
-    <Button variant="secondary" size="lg" disabled={cartBooks.length == 0}>
+    <Button variant="secondary" size="lg" disabled={cartItems.length == 0}>
       Check Out
     </Button>
   );
