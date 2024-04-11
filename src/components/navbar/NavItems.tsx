@@ -13,12 +13,12 @@ const NavItems: React.FC = () => {
   return (
     <ul className="flex justify-center items-center gap-2">
       <NavItem to={'/books'}>Books</NavItem>
+      <NavItem to={'/bookmarks'}>Bookmarks</NavItem>
+      <NavItem to={'/cart'}>Cart</NavItem>
+      <NavItem to={'/orders'}>Orders</NavItem>
 
       {isAuthenticated ? (
         <>
-          <NavItem to={'/bookmarks'}>Bookmarks</NavItem>
-          <NavItem to={'/cart'}>Cart</NavItem>
-          <NavItem to={'/orders'}>Orders</NavItem>
           <LogOutButton />
         </>
       ) : (
