@@ -42,7 +42,6 @@ export type AuthContextType = {
   loginWithRedirect: () => void;
   logOutUser: () => void;
   loginUser: (user: User) => void;
-  isLoading: boolean;
 };
 
 export type UserAction = {

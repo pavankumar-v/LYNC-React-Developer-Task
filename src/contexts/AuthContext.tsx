@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import useToggle from '@/hooks/useToggle';
 import { User } from '@/interface';
 import { useNavigate } from 'react-router-dom';
 import { AuthContextType } from '@/types';
@@ -13,7 +12,6 @@ type Props = {
 
 const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, null);
-  const [isLoading, toogleLoading] = useToggle(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,8 +36,6 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
         userDispatch({ type: 'setUser', payload: user });
       }
     }
-
-    toogleLoading();
   }
 
   function loginUser(user: User) {
@@ -59,7 +55,6 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
         isAuthenticated,
         loginUser,
         logOutUser,
-        isLoading,
         loginWithRedirect,
       }}
     >

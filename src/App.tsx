@@ -16,7 +16,6 @@ import Cart from './components/pages/Cart';
 import Orders from './components/pages/Orders';
 import AppContextProvider from './contexts/AppContext';
 import { AuthContext } from './contexts/AuthContext';
-import Spinner from './components/ui/Spinner';
 import { AuthContextType } from '@/types';
 
 const App: React.FC = () => {
@@ -42,13 +41,7 @@ const App: React.FC = () => {
 };
 
 const AuthProtected: React.FC = () => {
-  const { isAuthenticated, isLoading } = useContext(
-    AuthContext
-  ) as AuthContextType;
-
-  if (isLoading) {
-    return <Spinner>Loading...</Spinner>;
-  }
+  const { isAuthenticated } = useContext(AuthContext) as AuthContextType;
 
   if (isAuthenticated) {
     return <Outlet />;
