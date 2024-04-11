@@ -4,6 +4,7 @@ import { BookContext } from '@/contexts/BookContext';
 import { AuthContextType, BookContextType } from '@/types';
 import { AuthContext } from '@/contexts/AuthContext';
 import { Book } from '@/interface';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   book: Book;
@@ -14,6 +15,7 @@ const BookmarkButton: React.FC<Props> = ({ book }) => {
     BookContext
   ) as BookContextType;
   const { user } = useContext(AuthContext) as AuthContextType;
+  const navigate = useNavigate();
 
   const isBookMarked = bookmarks.find((bookmarks) => {
     return bookmarks.bookId == book.id && bookmarks.userId == user?.id;
@@ -27,6 +29,8 @@ const BookmarkButton: React.FC<Props> = ({ book }) => {
     e.stopPropagation();
     if (user) {
       addToBookMarks(book, user);
+    } else {
+      navigate('/auth/login');
     }
   }
 
@@ -34,15 +38,11 @@ const BookmarkButton: React.FC<Props> = ({ book }) => {
     return <p className="text-accent">Bookmarked</p>;
   }
 
-  if (user) {
-    return (
-      <Button onClick={handleAddBookmark} disabled={isBookMarked}>
-        Bookmark
-      </Button>
-    );
-  }
-
-  return null;
+  return (
+    <Button onClick={handleAddBookmark} disabled={isBookMarked}>
+      Bookmark
+    </Button>
+  );
 };
 
 export default BookmarkButton;
