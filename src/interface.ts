@@ -9,17 +9,16 @@ export interface CartItem {
   userId: string;
 }
 
-export interface Bookmarks {
+export interface Bookmark {
   id: string;
   userId: string;
   bookId: string;
 }
 
-export interface Orders {
+export interface Order {
   id: string;
   bookId: string;
   userId: string;
-  createdAt: Date;
 }
 
 export enum BookSaleAbility {
