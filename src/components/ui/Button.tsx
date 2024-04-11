@@ -14,10 +14,10 @@ interface Props
 type BtnVariants = 'primary' | 'secondary' | 'destructive' | 'default';
 type ButtonSize = 'lg' | 'md' | 'sm';
 
-const defaultStyle: string =
+export const defaultStyle: string =
   'text-sm px-4 py-2 transition rounded-sm disabled:bg-gray-400 inline-block';
 
-const btnVariant: { [key in BtnVariants]: string } = {
+export const btnVariant: { [key in BtnVariants]: string } = {
   primary:
     'bg-primary text-primary-foreground hover:bg-primary/80 active:bg-primary/85 hover:text-primary-foreground/95 active:text-primary-foreground/90',
   destructive:
