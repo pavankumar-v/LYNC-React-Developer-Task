@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { Book } from '@/interface';
 import BookInfo from '@components/book/BookInfo';
 import { BookContext, BookContextType } from '@/contexts/BookContext';
+import SearchFilter from '@components/book/SearchFilter';
 
 const Books: React.FC = () => {
   const { books } = useContext(BookContext) as BookContextType;
   return (
-    <div className="container">
+    <div className="container mt-4">
+      <SearchFilter />
       <BooksGrid books={books} />
     </div>
   );

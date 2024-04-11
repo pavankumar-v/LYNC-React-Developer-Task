@@ -1,5 +1,5 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
-import { getBooks } from '@/services/bookService';
+import { getBooks, searchBookApi } from '@/services/bookService';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { AuthContext, AuthContextType } from './AuthContext';
 
@@ -13,6 +13,7 @@ export type BookContextType = {
   createOrder: () => void;
   addToBookMarks: (book: Book, user: User) => void;
   removeFromBookmarks: (bookmarkId: string) => void;
+  searchBook: (searchTerm: string) => void;
 };
 
 type CartActionType = {
@@ -29,6 +30,8 @@ type BookmarkActionType = {
   type: 'add' | 'remove';
   payload?: Bookmark[];
 };
+
+export type BookActions = 'add';
 
 export const BookContext = createContext<BookContextType | null>(null);
 
@@ -79,8 +82,6 @@ function bookmarkReducer(
   }
 }
 
-export type BookActions = 'fetch';
-
 type BookActionType = {
   type: BookActions;
   payload?: Book[];
@@ -88,7 +89,7 @@ type BookActionType = {
 
 function bookReducer(state: Book[], action: BookActionType): Book[] {
   switch (action.type) {
-    case 'fetch':
+    case 'add':
       return action.payload || [];
     default:
       return [];
@@ -131,7 +132,6 @@ const BookContextProvider: React.FC<{
       userId: cart.userId,
       createdAt: new Date(),
     }));
-    console.log(newOrders);
 
     newOrders = [...orders, ...newOrders];
     localStorage.setItem('orders', JSON.stringify(newOrders));
@@ -193,17 +193,22 @@ const BookContextProvider: React.FC<{
 
   async function loadBooks(): Promise<void> {
     const books: Book[] = await getBooks();
-    bookDispatch({ type: 'fetch', payload: books });
+    bookDispatch({ type: 'add', payload: books });
   }
 
   function loadOrder() {
     const ordersJsonData = localStorage.getItem('orders');
-    console.log(ordersJsonData);
+
     if (ordersJsonData) {
       let ordersData: Order[] = JSON.parse(ordersJsonData);
       ordersData = ordersData.filter((order) => order.userId == user?.id);
       orderDispatch({ type: 'add', payload: ordersData });
     }
+  }
+
+  async function searchBook(searchTerm: string) {
+    const books: Book[] = await searchBookApi(searchTerm);
+    bookDispatch({ type: 'add', payload: books });
   }
 
   useEffect(() => {
@@ -225,6 +230,7 @@ const BookContextProvider: React.FC<{
         createOrder,
         addToBookMarks,
         removeFromBookmarks,
+        searchBook,
       }}
     >
       {children}
