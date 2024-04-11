@@ -10,6 +10,7 @@ import {
   cartReducer,
   orderReducer,
 } from '@/reducers/bookReducers';
+import useToggle from '@/hooks/useToggle';
 
 export const BookContext = createContext<BookContextType | null>(null);
 
@@ -23,6 +24,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
+  const [isLoading, toogleLoading] = useToggle(false);
 
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
@@ -126,8 +128,10 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   async function searchBook(searchTerm: string) {
+    await toogleLoading();
     const books: Book[] = await searchBookApi(searchTerm);
     bookDispatch({ type: 'add', payload: books });
+    await toogleLoading();
   }
 
   useEffect(() => {
@@ -150,6 +154,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         addToBookMarks,
         removeFromBookmarks,
         searchBook,
+        isLoading,
       }}
     >
       {children}

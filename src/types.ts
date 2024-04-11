@@ -11,6 +11,7 @@ export type BookContextType = {
   addToBookMarks: (book: Book, user: User) => void;
   removeFromBookmarks: (bookmarkId: string) => void;
   searchBook: (searchTerm: string) => void;
+  isLoading: boolean;
 };
 
 export type CartActionType = {

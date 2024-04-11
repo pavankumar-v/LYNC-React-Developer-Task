@@ -4,13 +4,18 @@ import BookInfo from '@components/book/BookInfo';
 import { BookContext } from '@/contexts/BookContext';
 import { BookContextType } from '@/types';
 import SearchFilter from '@components/book/SearchFilter';
+import Spinner from '../ui/Spinner';
 
 const Books: React.FC = () => {
-  const { books } = useContext(BookContext) as BookContextType;
+  const { books, isLoading } = useContext(BookContext) as BookContextType;
   return (
     <div className="container mt-4">
       <SearchFilter />
-      <BooksGrid books={books} />
+      {isLoading ? (
+        <Spinner>Loading books...</Spinner>
+      ) : (
+        <BooksGrid books={books} />
+      )}
     </div>
   );
 };
