@@ -105,6 +105,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   async function loadBooks(): Promise<void> {
     const books: Book[] = await getBooks();
     bookDispatch({ type: 'add', payload: books });
+    toogleLoading();
   }
 
   function loadOrder() {
@@ -179,10 +180,11 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
-    loadBooks();
     loadBookmarks();
     loadCartItems();
     loadOrder();
+    loadBooks();
+    toogleLoading();
   }, [user]);
 
   return (

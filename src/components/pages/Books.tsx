@@ -12,7 +12,9 @@ const Books: React.FC = () => {
     <div className="container mt-4">
       <SearchFilter />
       {isLoading ? (
-        <Spinner>Loading books...</Spinner>
+        <span className="p-10 ">
+          <Spinner>Loading books...</Spinner>
+        </span>
       ) : (
         <BooksGrid books={books} />
       )}
