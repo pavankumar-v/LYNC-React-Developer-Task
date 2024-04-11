@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { BooksGrid } from './Books';
 import { Book } from '@/interface';
 

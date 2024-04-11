@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Button from '../ui/Button';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { debounce } from '@/utils/utils';
 
 const SearchFilter: React.FC = () => {

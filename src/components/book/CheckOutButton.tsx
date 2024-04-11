@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
 import { CartItem } from '@/interface';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {

@@ -15,8 +15,9 @@ import LoginPage from './components/pages/LoginPage';
 import Cart from './components/pages/Cart';
 import Orders from './components/pages/Orders';
 import AppContextProvider from './contexts/AppContext';
-import { AuthContext, AuthContextType } from './contexts/AuthContext';
+import { AuthContext } from './contexts/AuthContext';
 import Spinner from './components/ui/Spinner';
+import { AuthContextType } from '@/types';
 
 const App: React.FC = () => {
   return (

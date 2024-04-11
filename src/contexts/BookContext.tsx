@@ -1,104 +1,23 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
 import { getBooks, searchBookApi } from '@/services/bookService';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { AuthContext, AuthContextType } from './AuthContext';
+import { AuthContext } from './AuthContext';
+import { AuthContextType, BookContextType } from '@/types';
 
-export type BookContextType = {
-  books: Book[];
-  cartItems: CartItem[];
-  orders: Order[];
-  bookmarks: Bookmark[];
-  addToCart: (book: Book, user: User) => void;
-  removeFromCart: (cartId: string) => void;
-  createOrder: () => void;
-  addToBookMarks: (book: Book, user: User) => void;
-  removeFromBookmarks: (bookmarkId: string) => void;
-  searchBook: (searchTerm: string) => void;
-};
-
-type CartActionType = {
-  type: 'add' | 'remove';
-  payload?: CartItem[];
-};
-
-type OrderActionType = {
-  type: 'add' | 'remove';
-  payload?: Order[];
-};
-
-type BookmarkActionType = {
-  type: 'add' | 'remove';
-  payload?: Bookmark[];
-};
-
-export type BookActions = 'add';
+import {
+  bookReducer,
+  bookmarkReducer,
+  cartReducer,
+  orderReducer,
+} from '@/reducers/bookReducers';
 
 export const BookContext = createContext<BookContextType | null>(null);
 
-function cartReducer(state: CartItem[], action: CartActionType): CartItem[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    case 'remove':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    default:
-      return [];
-  }
-}
-
-function orderReducer(state: Order[], action: OrderActionType): Order[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return action.payload;
-      }
-      return [];
-    default:
-      return [];
-  }
-}
-
-function bookmarkReducer(
-  state: Bookmark[],
-  action: BookmarkActionType
-): Bookmark[] {
-  switch (action.type) {
-    case 'add':
-      if (action.payload) {
-        return [...action.payload];
-      }
-
-      return [];
-    case 'remove':
-      return [];
-    default:
-      return [];
-  }
-}
-
-type BookActionType = {
-  type: BookActions;
-  payload?: Book[];
+type Props = {
+  children: JSX.Element | JSX.Element[];
 };
 
-function bookReducer(state: Book[], action: BookActionType): Book[] {
-  switch (action.type) {
-    case 'add':
-      return action.payload || [];
-    default:
-      return [];
-  }
-}
-
-const BookContextProvider: React.FC<{
-  children: JSX.Element | JSX.Element[];
-}> = ({ children }) => {
+const BookContextProvider: React.FC<Props> = ({ children }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);

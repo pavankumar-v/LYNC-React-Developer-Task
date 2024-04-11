@@ -33,7 +33,7 @@ export interface Book {
   volumeInfo: {
     title: string;
     subtitle: string;
-    authors: string[];
+    authors?: string[];
     language: 'en';
     imageLinks: {
       smallThubnail: string;

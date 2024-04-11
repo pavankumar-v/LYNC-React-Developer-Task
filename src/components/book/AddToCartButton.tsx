@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Button from '@ui/Button';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import { AuthContext, AuthContextType } from '@/contexts/AuthContext';
 import { Book, BookSaleAbility } from '@/interface';
 import { useNavigate } from 'react-router-dom';

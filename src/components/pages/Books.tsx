@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { Book } from '@/interface';
 import BookInfo from '@components/book/BookInfo';
-import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BookContext } from '@/contexts/BookContext';
+import { BookContextType } from '@/types';
 import SearchFilter from '@components/book/SearchFilter';
 
 const Books: React.FC = () => {
