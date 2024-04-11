@@ -2,7 +2,8 @@ import { Book, BookSaleAbility } from '@/interface';
 import { getBook } from '@/services/bookService';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Button from '../ui/Button';
+import Button from '@ui/Button';
+import BookmarkButton from '../book/BookmarkButton';
 
 const BookInfo: React.FC = () => {
   const [book, setBook] = useState<Book | null>(null);
@@ -57,10 +58,10 @@ const BookInfo: React.FC = () => {
                   </p>
                   <div className="flex gap-2 mt-3">
                     <Button size="lg">Buy Now</Button>
-                    <Button>Bookmark</Button>
                   </div>
                 </>
               )}
+              <BookmarkButton book={book} />
             </div>
           </div>
         </div>
