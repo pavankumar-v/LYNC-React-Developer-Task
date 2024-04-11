@@ -16,8 +16,8 @@ const NavItems: React.FC = () => {
       {isAuthenticated ? (
         <>
           <NavItem to={'/bookmarks'}>Bookmarks</NavItem>
-          <NavItem to={'/cart'}>cart</NavItem>
-          <NavItem to={'/orders'}>orders</NavItem>
+          <NavItem to={'/cart'}>Cart</NavItem>
+          <NavItem to={'/orders'}>Orders</NavItem>
           <LogOutButton />
         </>
       ) : (
