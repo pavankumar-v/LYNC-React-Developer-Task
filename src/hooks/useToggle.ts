@@ -1,9 +1,15 @@
 import { useState } from 'react';
 
-function useToggle(defaultState: boolean): [boolean, () => void] {
+function useToggle(
+  defaultState: boolean
+): [boolean, (value?: boolean) => void] {
   const [open, setOpen] = useState(defaultState || false);
 
-  const toggleFun = (): void => {
+  const toggleFun = (value?: boolean): void => {
+    if (value !== null && value !== undefined) {
+      return setOpen(value);
+    }
+
     setOpen((open) => !open);
   };
 
