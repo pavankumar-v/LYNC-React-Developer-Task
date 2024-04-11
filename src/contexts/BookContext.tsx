@@ -1,7 +1,7 @@
 import { CartItem, Order, Book, User, Bookmark } from '@/interface';
 import { getBooks } from '@/services/bookService';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
-import { AuthContext } from './AuthContext';
+import { AuthContext, AuthContextType } from './AuthContext';
 
 export type BookContextType = {
   books: Book[];
@@ -17,7 +17,7 @@ export type BookContextType = {
 
 type CartActionType = {
   type: 'add' | 'remove';
-  payload?: CartItem;
+  payload?: CartItem[];
 };
 
 type OrderActionType = {
@@ -35,6 +35,9 @@ export const BookContext = createContext<BookContextType | null>(null);
 function cartReducer(state: CartItem[], action: CartActionType): CartItem[] {
   switch (action.type) {
     case 'add':
+      if (action.payload) {
+        return action.payload;
+      }
       return [];
     case 'remove':
       return [];
@@ -91,20 +94,24 @@ function bookReducer(state: Book[], action: BookActionType): Book[] {
 const BookContextProvider: React.FC<{
   children: JSX.Element | JSX.Element[];
 }> = ({ children }) => {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext) as AuthContextType;
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
 
+  console.log(user);
   function addToCart(book: Book, user: User) {
-    const cart: CartItem = {
+    const cartItem: CartItem = {
       id: Math.random().toString(),
       bookId: book.id,
       userId: user.id,
     };
 
-    cartDispatch({ type: 'add', payload: cart });
+    cartItems.push(cartItem);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+    cartDispatch({ type: 'add', payload: [...cartItems] });
   }
 
   function removeFromCart(cartId: string) {
@@ -113,7 +120,7 @@ const BookContextProvider: React.FC<{
     );
 
     if (cart) {
-      cartDispatch({ type: 'remove', payload: cart });
+      // cartDispatch({ type: 'remove', payload: cart });
     }
   }
 
@@ -146,7 +153,7 @@ const BookContextProvider: React.FC<{
     );
 
     if (bookmark) {
-      cartDispatch({ type: 'remove', payload: bookmark });
+      // cartDispatch({ type: 'remove', payload: bookmark });
     }
   }
 
@@ -163,15 +170,29 @@ const BookContextProvider: React.FC<{
     }
   }
 
+  function loadCartItems() {
+    if (user) {
+      const cartData = localStorage.getItem('cartItems');
+      console.log(cartData);
+      if (cartData) {
+        let cartItems: CartItem[] = JSON.parse(cartData);
+        cartItems = cartItems.filter((bookmark) => bookmark.userId == user.id);
+
+        cartDispatch({ type: 'add', payload: [...cartItems] });
+      }
+    }
+  }
+
   async function loadBooks(): Promise<void> {
     const books: Book[] = await getBooks();
     bookDispatch({ type: 'fetch', payload: books });
   }
 
   useEffect(() => {
-    loadBookmarks();
     loadBooks();
-  }, []);
+    loadBookmarks();
+    loadCartItems();
+  }, [user]);
 
   return (
     <BookContext.Provider
