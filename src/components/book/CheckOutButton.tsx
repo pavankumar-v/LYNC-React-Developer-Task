@@ -13,8 +13,14 @@ const CheckOutButton: React.FC<Props> = ({ cartItems }) => {
   const { createOrder } = useContext(BookContext) as BookContextType;
   const navigate = useNavigate();
   function handleOrders() {
-    createOrder();
-    navigate('/orders');
+    const confirm = window.confirm(
+      'Are you sure?\n Would you like to checkout?'
+    );
+
+    if (confirm) {
+      createOrder();
+      navigate('/orders');
+    }
   }
   return (
     <Button

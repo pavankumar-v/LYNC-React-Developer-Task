@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Button from '@ui/Button';
+import { twMerge } from 'tailwind-merge';
+import { btnVariant, defaultStyle } from '../ui/Button';
 
 type Props = {
   to: string;
@@ -10,16 +11,18 @@ type Props = {
 const NavItem: React.FC<Props> = ({ to, children }) => {
   return (
     <li>
-      <Button variant="default">
-        <NavLink
-          to={to}
-          className={({ isActive }): string => {
-            return isActive ? 'text-primary' : '';
-          }}
-        >
-          {children}
-        </NavLink>
-      </Button>
+      <NavLink
+        to={to}
+        className={({ isActive }): string => {
+          return twMerge(
+            defaultStyle,
+            btnVariant.default,
+            isActive ? 'text-primary' : ''
+          );
+        }}
+      >
+        {children}
+      </NavLink>
     </li>
   );
 };
