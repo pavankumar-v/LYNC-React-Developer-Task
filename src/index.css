@@ -58,4 +58,18 @@ body {
   input:focus {
     @apply focus:ring focus:outline focus:outline-primary;
   }
+
+  /* scrollbar */
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  body::-webkit-scrollbar-track {
+    @apply bg-foreground/5;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    @apply bg-primary/10;
+    border-radius: 5px;
+  }
 }
