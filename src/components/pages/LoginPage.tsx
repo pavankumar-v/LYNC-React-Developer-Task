@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
   function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const user: User = {
-      id: Math.floor(Math.random() * 40).toString(),
+      id: e.currentTarget.email.value,
       email: e.currentTarget.email.value,
     };
 
