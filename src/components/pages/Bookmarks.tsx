@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { BookContext, BookContextType } from '@/contexts/BookContext';
+import { BooksGrid } from './Books';
+import { Book } from '@/interface';
 
 const Bookmarks = () => {
-  return <div className="container">Bookmarks</div>;
+  const { books, bookmarks } = useContext(BookContext) as BookContextType;
+  const bookmarkedBooks: Book[] = books.filter((book) =>
+    bookmarks.map((bookmark) => bookmark.bookId).includes(book.id)
+  );
+  console.log(bookmarks);
+  return (
+    <div className="container">
+      <BooksGrid books={bookmarkedBooks} />
+    </div>
+  );
 };
 
 export default Bookmarks;
