@@ -135,12 +135,13 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         const book: Book | undefined = books.find(
           (book) => book.id == bookmark.bookId
         );
+
         if (book) {
           if (book.volumeInfo.title.toLowerCase().includes(searchTerm)) {
             return true;
           }
 
-          if (book.volumeInfo.subtitle.includes(searchTerm)) {
+          if (book.volumeInfo.subtitle?.includes(searchTerm)) {
             return true;
           }
         }
