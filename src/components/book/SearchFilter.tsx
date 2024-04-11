@@ -1,8 +1,7 @@
 import React, { RefObject, createRef, useContext } from 'react';
-import Button from '../ui/Button';
 import { BookContext } from '@/contexts/BookContext';
 import { BookContextType, OptionType } from '@/types';
-import { debounce } from '@/utils/utils';
+import { debounce, dropDownStyle } from '@/utils/utils';
 import Select from 'react-select';
 import { SingleValue } from 'react-select';
 
@@ -20,11 +19,22 @@ const SearchFilter: React.FC = () => {
     { value: 'rust', label: 'rust' },
   ];
 
+  const languagesOption: OptionType[] = [
+    { value: 'en', label: 'Engilish' },
+    { value: 'fr', label: 'French' },
+  ];
+
   console.log(isLoading);
 
   const handleOnCategoriesChange = (newValue: SingleValue<OptionType>) => {
     searchBook(searchInputRef.current?.value || '', {
       category: newValue?.value || '',
+    });
+  };
+
+  const handleOnLanguageChange = (newValue: SingleValue<OptionType>) => {
+    searchBook(searchInputRef.current?.value || '', {
+      language: newValue?.value || '',
     });
   };
 
@@ -45,29 +55,17 @@ const SearchFilter: React.FC = () => {
         isSearchable={false}
         isClearable
         className="w-3/4"
-        styles={{
-          control: (base) => ({
-            ...base,
-            background: '#09090B',
-            borderRadius: '12px',
-          }),
-          menu: (base) => ({
-            ...base,
-            borderRadius: '12px',
-          }),
-          menuList: (base) => ({
-            ...base,
-            background: '#020817',
-            borderRadius: '12px',
-          }),
-          option: (base, state) => ({
-            ...base,
-            background: state.isFocused ? '#3B82F6' : '#020817',
-            borderRadius: '12px',
-          }),
-        }}
+        styles={dropDownStyle}
       />
-      <Button size="lg">search</Button>
+
+      <Select
+        options={languagesOption}
+        onChange={handleOnLanguageChange}
+        isSearchable={false}
+        isClearable
+        className="w-3/4"
+        styles={dropDownStyle}
+      />
     </div>
   );
 };
