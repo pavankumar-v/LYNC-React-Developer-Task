@@ -46,7 +46,7 @@ const AuthProtected: React.FC = () => {
   ) as AuthContextType;
 
   if (isLoading) {
-    <Spinner>Loading...</Spinner>;
+    return <Spinner>Loading...</Spinner>;
   }
 
   if (isAuthenticated) {
