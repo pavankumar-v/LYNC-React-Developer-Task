@@ -40,6 +40,9 @@ function cartReducer(state: CartItem[], action: CartActionType): CartItem[] {
       }
       return [];
     case 'remove':
+      if (action.payload) {
+        return action.payload;
+      }
       return [];
     default:
       return [];
@@ -100,7 +103,6 @@ const BookContextProvider: React.FC<{
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
 
-  console.log(user);
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
       id: Math.random().toString(),
@@ -115,13 +117,10 @@ const BookContextProvider: React.FC<{
   }
 
   function removeFromCart(cartId: string) {
-    const cart: CartItem | undefined = cartItems.find(
-      (cartItem) => cartItem.id == cartId
-    );
+    const updatedCart = cartItems.filter((cartItem) => cartItem.id !== cartId);
+    localStorage.setItem('cartItems', JSON.stringify(updatedCart));
 
-    if (cart) {
-      // cartDispatch({ type: 'remove', payload: cart });
-    }
+    cartDispatch({ type: 'remove', payload: [...updatedCart] });
   }
 
   function createOrder(book: Book, user: User) {
@@ -173,7 +172,7 @@ const BookContextProvider: React.FC<{
   function loadCartItems() {
     if (user) {
       const cartData = localStorage.getItem('cartItems');
-      console.log(cartData);
+
       if (cartData) {
         let cartItems: CartItem[] = JSON.parse(cartData);
         cartItems = cartItems.filter((bookmark) => bookmark.userId == user.id);
