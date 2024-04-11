@@ -35,6 +35,8 @@ const AddToCartButton: React.FC<Props> = ({ book }) => {
 
     if (user) {
       addToCart(book, user);
+    } else {
+      navigate('/auth/login');
     }
   }
 
@@ -42,15 +44,11 @@ const AddToCartButton: React.FC<Props> = ({ book }) => {
     return <p className="text-destructive">Not For Sale</p>;
   }
 
-  if (user) {
-    return (
-      <Button onClick={handleAddBookmark}>
-        {isBookInCart ? 'Go to Cart' : 'Buy Now'}
-      </Button>
-    );
-  }
-
-  return null;
+  return (
+    <Button onClick={handleAddBookmark}>
+      {isBookInCart ? 'Go to Cart' : 'Buy Now'}
+    </Button>
+  );
 };
 
 export default AddToCartButton;
