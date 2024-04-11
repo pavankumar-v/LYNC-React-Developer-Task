@@ -4,7 +4,7 @@ function useToggle(defaultState: boolean): [boolean, () => void] {
   const [open, setOpen] = useState(defaultState || false);
 
   const toggleFun = (): void => {
-    setOpen(!open);
+    setOpen((open) => !open);
   };
 
   return [open, toggleFun];
