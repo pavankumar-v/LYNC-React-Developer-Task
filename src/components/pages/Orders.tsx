@@ -24,13 +24,15 @@ const Orders = () => {
 
   return (
     <div className="container">
-      <h1 className="text-3xl mb-4 flex flex-col gap-3">Your Orders</h1>
+      <h1 className="text-3xl mb-4 ">Your Orders</h1>
       <div className="my-4">
         <StaticSearchFilter searchCallback={handleBookmarksSearch} />
       </div>
-      {orders.map((order, i) => (
-        <OrderCard order={order} key={i} />
-      ))}
+      <div className="flex flex-col gap-3 mb-4">
+        {orders.map((order, i) => (
+          <OrderCard order={order} key={i} />
+        ))}
+      </div>
     </div>
   );
 };
@@ -42,7 +44,7 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
 
   if (book) {
     return (
-      <div className="flex justify-between gap-4 p-3 border bg-card rounded-xl">
+      <div className="flex justify-between gap-4 p-3 border border-primary/40 bg-card rounded-[1.2rem]">
         <div className="flex gap-3">
           <img
             src={book?.volumeInfo.imageLinks.thumbnail}
