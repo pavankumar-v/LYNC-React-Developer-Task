@@ -10,7 +10,7 @@ export type BookContextType = {
   createOrder: () => void;
   addToBookMarks: (book: Book, user: User) => void;
   removeFromBookmarks: (bookmarkId: string) => void;
-  searchBook: (searchTerm: string) => void;
+  searchBook: (searchTerm: string, q?: QueriesType) => void;
   isLoading: boolean;
 };
 
@@ -51,3 +51,10 @@ export type UserAction = {
 };
 
 export type OptionType = { value: string; label: string };
+
+export enum Query {
+  category = 'category',
+  language = 'language',
+}
+
+export type QueriesType = { [key in Query]?: string };

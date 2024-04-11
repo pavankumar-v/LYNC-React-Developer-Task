@@ -1,5 +1,6 @@
 import api from '@/utils/api';
 import { Book } from '@/interface';
+import { QueriesType, Query } from '@/types';
 
 export async function getBooks(): Promise<Book[]> {
   try {
@@ -22,8 +23,22 @@ export async function getBook(volumeId: string): Promise<Book | null> {
   }
 }
 
-export async function searchBookApi(searchTerm: string): Promise<Book[]> {
+export async function searchBookApi(
+  searchTerm: string,
+  q?: { [key in Query]?: string }
+): Promise<Book[]> {
   try {
+    if (q) {
+      searchTerm += Object.keys(q)
+        .map((queryTitle) =>
+          q[queryTitle as keyof QueriesType]
+            ? `+${q[queryTitle as keyof QueriesType] || ''}`
+            : ''
+        )
+        .join('')
+        .trim();
+    }
+
     let path = `/books/v1/volumes?q=${searchTerm}`;
     if (!searchTerm) {
       path = "/books/v1/volumes?q=''";

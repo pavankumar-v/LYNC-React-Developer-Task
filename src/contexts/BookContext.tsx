@@ -2,7 +2,7 @@ import { CartItem, Order, Book, User, Bookmark } from '@/interface';
 import { getBooks, searchBookApi } from '@/services/bookService';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { AuthContext } from './AuthContext';
-import { AuthContextType, BookContextType } from '@/types';
+import { AuthContextType, BookContextType, Query } from '@/types';
 
 import {
   bookReducer,
@@ -127,11 +127,16 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     }
   }
 
-  async function searchBook(searchTerm: string) {
-    await toogleLoading();
-    const books: Book[] = await searchBookApi(searchTerm);
+  async function searchBook(
+    searchTerm: string,
+    q?: {
+      [key in Query]?: string;
+    }
+  ) {
+    toogleLoading();
+    const books: Book[] = await searchBookApi(searchTerm, q);
     bookDispatch({ type: 'add', payload: books });
-    await toogleLoading();
+    toogleLoading();
   }
 
   useEffect(() => {

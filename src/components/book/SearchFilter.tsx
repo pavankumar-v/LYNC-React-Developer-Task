@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { RefObject, createRef, useContext } from 'react';
 import Button from '../ui/Button';
 import { BookContext } from '@/contexts/BookContext';
 import { BookContextType, OptionType } from '@/types';
@@ -8,6 +8,7 @@ import { SingleValue } from 'react-select';
 
 const SearchFilter: React.FC = () => {
   const { searchBook, isLoading } = useContext(BookContext) as BookContextType;
+  const searchInputRef: RefObject<HTMLInputElement> = createRef();
 
   const handleSearch = debounce((searchTerm: string) => {
     searchBook(searchTerm);
@@ -22,12 +23,15 @@ const SearchFilter: React.FC = () => {
   console.log(isLoading);
 
   const handleOnCategoriesChange = (newValue: SingleValue<OptionType>) => {
-    searchBook(newValue?.value || '');
+    searchBook(searchInputRef.current?.value || '', {
+      category: newValue?.value || '',
+    });
   };
 
   return (
     <div className="flex justify-center items-center gap-2">
       <input
+        ref={searchInputRef}
         type="text"
         placeholder="search books"
         className="border-foreground/30"
