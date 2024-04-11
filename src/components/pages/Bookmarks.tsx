@@ -13,7 +13,7 @@ const Bookmarks = () => {
   if (bookmarkedBooks.length == 0) {
     return (
       <div className="container p-10 flex justify-center items-center">
-        <p>You have not Bookmarked Any Books🔖</p>
+        <p>You have Not Bookmarked Any Books 🔖</p>
       </div>
     );
   }
