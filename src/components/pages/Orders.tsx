@@ -20,7 +20,6 @@ const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
   const { books } = useContext(BookContext) as BookContextType;
 
   const book: Book | undefined = books.find((book) => book.id == order.bookId);
-  console.log(book);
 
   if (book) {
     return (
