@@ -42,7 +42,6 @@ const App: React.FC = () => {
 
 const AuthProtected: React.FC = () => {
   const { isAuthenticated, isLoading } = useContext(AuthContext);
-  console.log(isAuthenticated);
 
   if (isLoading) {
     <Spinner>Loading...</Spinner>;

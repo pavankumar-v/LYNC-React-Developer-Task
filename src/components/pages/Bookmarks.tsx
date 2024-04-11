@@ -8,7 +8,7 @@ const Bookmarks = () => {
   const bookmarkedBooks: Book[] = books.filter((book) =>
     bookmarks.map((bookmark) => bookmark.bookId).includes(book.id)
   );
-  console.log(bookmarks);
+
   return (
     <div className="container">
       <BooksGrid books={bookmarkedBooks} />
