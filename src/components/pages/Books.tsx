@@ -21,6 +21,10 @@ const Books: React.FC = () => {
 };
 
 export const BooksGrid: React.FC<{ books: Book[] }> = ({ books }) => {
+  if (books.length == 0) {
+    return <p className="p-5">No Books Found</p>;
+  }
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 py-5">
       {books.map((book: Book, i: number) => (

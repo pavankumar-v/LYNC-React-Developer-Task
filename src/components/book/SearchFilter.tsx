@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { SingleValue } from 'react-select';
 
 const SearchFilter: React.FC = () => {
-  const { searchBook, isLoading } = useContext(BookContext) as BookContextType;
+  const { searchBook } = useContext(BookContext) as BookContextType;
   const searchInputRef: RefObject<HTMLInputElement> = createRef();
 
   const handleSearch = debounce((searchTerm: string) => {
@@ -23,8 +23,6 @@ const SearchFilter: React.FC = () => {
     { value: 'en', label: 'Engilish' },
     { value: 'fr', label: 'French' },
   ];
-
-  console.log(isLoading);
 
   const handleOnCategoriesChange = (newValue: SingleValue<OptionType>) => {
     searchBook(searchInputRef.current?.value || '', {

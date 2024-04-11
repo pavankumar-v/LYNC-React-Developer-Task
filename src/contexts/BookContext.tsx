@@ -76,16 +76,6 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     bookmarkDispatch({ type: 'add', payload: bookmarks });
   }
 
-  function removeFromBookmarks(bookmarkId: string) {
-    const bookmark: Bookmark | undefined = bookmarks.find(
-      (bookmark) => bookmark.id == bookmarkId
-    );
-
-    if (bookmark) {
-      // cartDispatch({ type: 'remove', payload: bookmark });
-    }
-  }
-
   function loadBookmarks() {
     if (user) {
       const bookMarkData = localStorage.getItem('bookmarks');
@@ -139,6 +129,54 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     toogleLoading();
   }
 
+  function searchBookmarks(searchTerm: string) {
+    if (searchTerm) {
+      const searchedBookMarks = bookmarks.filter((bookmark) => {
+        const book: Book | undefined = books.find(
+          (book) => book.id == bookmark.bookId
+        );
+        if (book) {
+          if (book.volumeInfo.title.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+
+          if (book.volumeInfo.subtitle.includes(searchTerm)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      bookmarkDispatch({ type: 'add', payload: searchedBookMarks });
+    } else {
+      loadBookmarks();
+    }
+  }
+
+  function searchOrders(searchTerm: string) {
+    if (searchTerm) {
+      const searchedOrders = orders.filter((order) => {
+        const book: Book | undefined = books.find(
+          (book) => book.id == order.bookId
+        );
+        if (book) {
+          if (book.volumeInfo.title.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+
+          if (book.volumeInfo.subtitle?.toLowerCase().includes(searchTerm)) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      orderDispatch({ type: 'add', payload: searchedOrders });
+    } else {
+      loadOrder();
+    }
+  }
+
   useEffect(() => {
     loadBooks();
     loadBookmarks();
@@ -157,8 +195,9 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         removeFromCart,
         createOrder,
         addToBookMarks,
-        removeFromBookmarks,
         searchBook,
+        searchBookmarks,
+        searchOrders,
         isLoading,
       }}
     >

@@ -1,15 +1,33 @@
 import { BookContext } from '@/contexts/BookContext';
 import { BookContextType } from '@/types';
 import { Book, type Order } from '@/interface';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { localizedDateFormat } from '@/utils/utils';
+import StaticSearchFilter from '../book/StaticSearchFilter';
 
 const Orders = () => {
-  const { orders } = useContext(BookContext) as BookContextType;
+  const { orders, searchOrders } = useContext(BookContext) as BookContextType;
+  const [searchTerm, setSearchTerm] = useState('');
+
+  function handleBookmarksSearch(searchText: string) {
+    setSearchTerm(searchText);
+    searchOrders(searchText);
+  }
+
+  if (orders.length == 0 && !searchTerm) {
+    return (
+      <div className="container p-4">
+        <p className="text-lg font-bold text-center">No Orders Found 🥺</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <h1 className="text-3xl mb-4 flex flex-col gap-3">Your Orders</h1>
+      <div className="my-4">
+        <StaticSearchFilter searchCallback={handleBookmarksSearch} />
+      </div>
       {orders.map((order, i) => (
         <OrderCard order={order} key={i} />
       ))}
