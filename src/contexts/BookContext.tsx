@@ -24,7 +24,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
-  const [isLoading, toogleLoading] = useToggle(false);
+  const [isLoading, toggleLoading] = useToggle(false);
 
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
@@ -103,9 +103,10 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   async function loadBooks(): Promise<void> {
+    toggleLoading(true);
     const books: Book[] = await getBooks();
     bookDispatch({ type: 'add', payload: books });
-    toogleLoading();
+    toggleLoading(false);
   }
 
   function loadOrder() {
@@ -124,10 +125,10 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
       [key in Query]?: string;
     }
   ) {
-    toogleLoading();
+    toggleLoading(true);
     const books: Book[] = await searchBookApi(searchTerm, q);
     bookDispatch({ type: 'add', payload: books });
-    toogleLoading();
+    toggleLoading(false);
   }
 
   function searchBookmarks(searchTerm: string) {
@@ -184,8 +185,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
     loadCartItems();
     loadOrder();
     loadBooks();
-    toogleLoading();
-  }, [user]);
+  }, []);
 
   return (
     <BookContext.Provider
