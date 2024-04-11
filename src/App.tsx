@@ -26,6 +26,7 @@ const App: React.FC = () => {
           <Navbar />
           <Routes>
             <Route element={<LoginPage />} path="/auth/login" />
+            <Route element={<Books />} path="/" />
             <Route element={<Books />} path="/books" />
             <Route element={<BookInfo />} path="/books/:id" />
             <Route element={<AuthProtected />}>
