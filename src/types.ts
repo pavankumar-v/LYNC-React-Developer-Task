@@ -40,6 +40,7 @@ export type BookActionType = {
 export type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
+  isLoadingUser: boolean;
   loginWithRedirect: () => void;
   logOutUser: () => void;
   loginUser: (user: User) => void;

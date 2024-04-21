@@ -17,6 +17,7 @@ import Orders from './components/pages/Orders';
 import AppContextProvider from './contexts/AppContext';
 import { AuthContext } from './contexts/AuthContext';
 import { AuthContextType } from '@/types';
+import Spinner from './components/ui/Spinner';
 
 const App: React.FC = () => {
   return (
@@ -42,7 +43,13 @@ const App: React.FC = () => {
 };
 
 const AuthProtected: React.FC = () => {
-  const { isAuthenticated } = useContext(AuthContext) as AuthContextType;
+  const { isAuthenticated, isLoadingUser } = useContext(
+    AuthContext
+  ) as AuthContextType;
+
+  if (isLoadingUser) {
+    return <Spinner>Verifying Authentication...</Spinner>;
+  }
 
   if (isAuthenticated) {
     return <Outlet />;
