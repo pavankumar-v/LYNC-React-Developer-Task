@@ -24,7 +24,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
-  const [isLoading, toggleLoading] = useToggle(false);
+  const [isLoadingBook, toggleLoading] = useToggle(isLoadingUser);
 
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
@@ -203,7 +203,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         searchBook,
         searchBookmarks,
         searchOrders,
-        isLoading,
+        isLoadingBook,
       }}
     >
       {children}

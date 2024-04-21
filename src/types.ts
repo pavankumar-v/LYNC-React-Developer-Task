@@ -12,7 +12,7 @@ export type BookContextType = {
   searchBook: (searchTerm: string, q?: QueriesType) => void;
   searchBookmarks: (searchTerm: string) => void;
   searchOrders: (searchTerm: string) => void;
-  isLoading: boolean;
+  isLoadingBook: boolean;
 };
 
 export type CartActionType = {

@@ -4,14 +4,21 @@ import { Book, type Order } from '@/interface';
 import React, { useContext, useState } from 'react';
 import { localizedDateFormat } from '@/utils/utils';
 import StaticSearchFilter from '../book/StaticSearchFilter';
+import Spinner from '../ui/Spinner';
 
 const Orders = () => {
-  const { orders, searchOrders } = useContext(BookContext) as BookContextType;
+  const { orders, searchOrders, isLoadingBook } = useContext(
+    BookContext
+  ) as BookContextType;
   const [searchTerm, setSearchTerm] = useState('');
 
   function handleBookmarksSearch(searchText: string) {
     setSearchTerm(searchText);
     searchOrders(searchText);
+  }
+
+  if (isLoadingBook) {
+    return <Spinner>getting your orders...</Spinner>;
   }
 
   if (orders.length == 0 && !searchTerm) {

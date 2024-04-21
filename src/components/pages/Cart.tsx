@@ -4,9 +4,10 @@ import { BookContextType } from '@/types';
 import { CartItem } from '@/interface';
 import CheckOutButton from '../book/CheckOutButton';
 import Button from '../ui/Button';
+import Spinner from '@/components/ui/Spinner';
 
 const Cart: React.FC = () => {
-  const { books, cartItems, removeFromCart } = useContext(
+  const { books, cartItems, removeFromCart, isLoadingBook } = useContext(
     BookContext
   ) as BookContextType;
   const cartBooks: CartItem[] = cartItems.reduce(
@@ -23,6 +24,10 @@ const Cart: React.FC = () => {
   const totalPrice: number | undefined = cartBooks
     .map((cart) => cart.book?.saleInfo.listPrice?.amount)
     .reduce((total, bookPrice) => (total || 0) + (bookPrice || 0), 0);
+
+  if (isLoadingBook) {
+    return <Spinner>getting your cart items...</Spinner>;
+  }
 
   if (cartBooks.length == 0) {
     return (

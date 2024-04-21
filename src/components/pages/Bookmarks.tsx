@@ -4,9 +4,10 @@ import { BookContextType } from '@/types';
 import { BooksGrid } from './Books';
 import { Book } from '@/interface';
 import StaticSearchFilter from '@components/book/StaticSearchFilter';
+import Spinner from '../ui/Spinner';
 
 const Bookmarks = () => {
-  const { books, bookmarks, searchBookmarks } = useContext(
+  const { books, bookmarks, searchBookmarks, isLoadingBook } = useContext(
     BookContext
   ) as BookContextType;
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,6 +19,10 @@ const Bookmarks = () => {
   function handleBookmarksSearch(searchText: string) {
     setSearchTerm(searchText);
     searchBookmarks(searchText);
+  }
+
+  if (isLoadingBook) {
+    return <Spinner>getting your bookmarks...</Spinner>;
   }
 
   if (bookmarkedBooks.length == 0 && !searchTerm) {
