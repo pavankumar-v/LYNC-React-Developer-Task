@@ -187,7 +187,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
       loadOrder();
       loadBooks();
     }
-  }, [user]);
+  }, [isLoadingUser]);
 
   return (
     <BookContext.Provider

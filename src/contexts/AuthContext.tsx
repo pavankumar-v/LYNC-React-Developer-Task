@@ -38,6 +38,8 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
       if (user) {
         userDispatch({ type: 'setUser', payload: user });
       }
+    } else {
+      userDispatch({ type: 'setUser', payload: null });
     }
 
     toggleLoading(false);

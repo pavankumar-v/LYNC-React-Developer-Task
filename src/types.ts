@@ -48,7 +48,7 @@ export type AuthContextType = {
 
 export type UserAction = {
   type: 'setUser' | 'removeUser';
-  payload?: User;
+  payload?: User | null;
 };
 
 export type OptionType = { value: string; label: string };
