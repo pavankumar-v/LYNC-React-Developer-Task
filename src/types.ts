@@ -12,7 +12,7 @@ export type BookContextType = {
   searchBook: (searchTerm: string, q?: QueriesType) => void;
   searchBookmarks: (searchTerm: string) => void;
   searchOrders: (searchTerm: string) => void;
-  isLoading: boolean;
+  isLoadingBook: boolean;
 };
 
 export type CartActionType = {
@@ -40,6 +40,7 @@ export type BookActionType = {
 export type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
+  isLoadingUser: boolean;
   loginWithRedirect: () => void;
   logOutUser: () => void;
   loginUser: (user: User) => void;

@@ -7,11 +7,11 @@ import SearchFilter from '@components/book/SearchFilter';
 import Spinner from '../ui/Spinner';
 
 const Books: React.FC = () => {
-  const { books, isLoading } = useContext(BookContext) as BookContextType;
+  const { books, isLoadingBook } = useContext(BookContext) as BookContextType;
   return (
     <div className="container mt-4">
       <SearchFilter />
-      {isLoading ? (
+      {isLoadingBook ? (
         <span className="p-10 ">
           <Spinner>Loading books...</Spinner>
         </span>

@@ -19,12 +19,12 @@ type Props = {
 };
 
 const BookContextProvider: React.FC<Props> = ({ children }) => {
-  const { user } = useContext(AuthContext) as AuthContextType;
+  const { user, isLoadingUser } = useContext(AuthContext) as AuthContextType;
   const [cartItems, cartDispatch] = useReducer(cartReducer, []);
   const [orders, orderDispatch] = useReducer(orderReducer, []);
   const [bookmarks, bookmarkDispatch] = useReducer(bookmarkReducer, []);
   const [books, bookDispatch] = useReducer(bookReducer, []);
-  const [isLoading, toggleLoading] = useToggle(false);
+  const [isLoadingBook, toggleLoading] = useToggle(isLoadingUser);
 
   function addToCart(book: Book, user: User) {
     const cartItem: CartItem = {
@@ -181,11 +181,13 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   useEffect(() => {
-    loadBookmarks();
-    loadCartItems();
-    loadOrder();
-    loadBooks();
-  }, []);
+    if (!isLoadingUser) {
+      loadBookmarks();
+      loadCartItems();
+      loadOrder();
+      loadBooks();
+    }
+  }, [user]);
 
   return (
     <BookContext.Provider
@@ -201,7 +203,7 @@ const BookContextProvider: React.FC<Props> = ({ children }) => {
         searchBook,
         searchBookmarks,
         searchOrders,
-        isLoading,
+        isLoadingBook,
       }}
     >
       {children}

@@ -3,6 +3,8 @@ import { User } from '@/interface';
 import { useNavigate } from 'react-router-dom';
 import { AuthContextType } from '@/types';
 import { userReducer } from '@/reducers/authReducers';
+import useToggle from '@/hooks/useToggle';
+import { debounce } from '@/utils/utils';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -12,10 +14,11 @@ type Props = {
 
 const AuthContextProvider: React.FC<Props> = ({ children }) => {
   const [user, userDispatch] = useReducer(userReducer, null);
+  const [isLoadingUser, toggleLoading] = useToggle(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadUser();
+    debounce(loadUser, 700)();
   }, []);
 
   const isAuthenticated = user ? true : false;
@@ -28,7 +31,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
     navigate('/auth/login');
   }
 
-  function loadUser() {
+  async function loadUser() {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const user: User = JSON.parse(userJson);
@@ -36,6 +39,8 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
         userDispatch({ type: 'setUser', payload: user });
       }
     }
+
+    toggleLoading(false);
   }
 
   function loginUser(user: User) {
@@ -53,6 +58,7 @@ const AuthContextProvider: React.FC<Props> = ({ children }) => {
       value={{
         user,
         isAuthenticated,
+        isLoadingUser,
         loginUser,
         logOutUser,
         loginWithRedirect,
